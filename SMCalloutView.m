@@ -507,8 +507,12 @@ NSTimeInterval kSMCalloutViewRepositionDelayForUIScrollView = 1.0/3.0;
 }
 
 - (void)removeFromParent {
-    if (self.superview)
+    if (self.superview) {
+        [self.contentView removeFromSuperview];
+        [self.rightAccessoryView removeFromSuperview];
+        [self.leftAccessoryView removeFromSuperview];
         [self removeFromSuperview];
+    }
     else {
         // removing a layer from a superlayer causes an implicit fade-out animation that we wish to disable.
         [CATransaction begin];
@@ -613,8 +617,8 @@ NSTimeInterval kSMCalloutViewRepositionDelayForUIScrollView = 1.0/3.0;
 									   CGRectGetWidth(self.bounds),
 									   CGRectGetHeight(self.bounds) - ANCHOR_HEIGHT - [self layoutBottomAnchorMargin] - OFFSET_FROM_ORIGIN);
 		
-		self.leftAccessoryView.$height = CGRectGetHeight(clippedView.bounds);
-		self.rightAccessoryView.$height = CGRectGetHeight(clippedView.bounds);
+		//self.leftAccessoryView.$height = CGRectGetHeight(clippedView.bounds);
+		//self.rightAccessoryView.$height = CGRectGetHeight(clippedView.bounds);
 	}
     
     self.titleViewOrDefault.$x = self.layoutInnerContentMarginLeft;
@@ -773,22 +777,22 @@ NSTimeInterval kSMCalloutViewRepositionDelayForUIScrollView = 1.0/3.0;
 	/*
 	 * On iOS 7, the user is allowed to touch the callout but we'll ignore touches inside accessories that inheirit from UIControl.
 	 */
-	if (self.shouldDrawiOS7UserInterface) {
+	/*if (self.shouldDrawiOS7UserInterface) {
 		
 		if ([self.leftAccessoryView isKindOfClass:[UIControl class]] &&
 			[self.leftAccessoryView pointInside:[self.leftAccessoryView convertPoint:point fromView:self] withEvent:nil]) {
 			
-			return YES;
+			return NO;
 		}
 		
 		if ([self.rightAccessoryView isKindOfClass:[UIControl class]] &&
 			[self.rightAccessoryView pointInside:[self.rightAccessoryView convertPoint:point fromView:self] withEvent:nil]) {
 			
-			return YES;
+			return NO;
 		}
 		
 		return [super pointInside:point withEvent:event];
-	}
+	}*/
 	
     /*
 	 * On iOS 6, we want to match the system callout view, which doesn't "capture" touches outside the accessory areas.
@@ -798,7 +802,8 @@ NSTimeInterval kSMCalloutViewRepositionDelayForUIScrollView = 1.0/3.0;
 			[self.rightAccessoryView pointInside:[self.rightAccessoryView convertPoint:point fromView:self] withEvent:nil] ||
 			[self.contentView pointInside:[self.contentView convertPoint:point fromView:self] withEvent:nil] ||
 			(!self.contentView && [self.titleView pointInside:[self.titleView convertPoint:point fromView:self] withEvent:nil]) ||
-			(!self.contentView && [self.subtitleView pointInside:[self.subtitleView convertPoint:point fromView:self] withEvent:nil]);
+			(!self.contentView && [self.subtitleView pointInside:[self.subtitleView convertPoint:point fromView:self] withEvent:nil]) ||
+            (self.backgroundView && [self.backgroundView pointInside:[self.backgroundView convertPoint:point fromView:self] withEvent:nil]);
 }
 
 
