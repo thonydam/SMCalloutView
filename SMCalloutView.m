@@ -103,7 +103,8 @@ NSTimeInterval kSMCalloutViewRepositionDelayForUIScrollView = 1.0/3.0;
 			// set iOS 7 specific styles
 			if (self.shouldDrawiOS7UserInterface) {
 				titleLabel.textColor = [UIColor darkTextColor];
-				titleLabel.font = [[UIFont preferredFontForTextStyle:UIFontTextStyleBody] fontWithSize:16];
+                if ([titleLabel respondsToSelector:@selector(preferredFontForTextStyle)])
+                    titleLabel.font = [[UIFont preferredFontForTextStyle:UIFontTextStyleBody] fontWithSize:16];
 				titleLabel.shadowColor = nil;
 				titleLabel.shadowOffset = CGSizeZero;
 			}
@@ -133,7 +134,8 @@ NSTimeInterval kSMCalloutViewRepositionDelayForUIScrollView = 1.0/3.0;
 			// set iOS 7 specific styles
 			if (self.shouldDrawiOS7UserInterface) {
 				subtitleLabel.textColor = [UIColor darkTextColor];
-				subtitleLabel.font = [[UIFont preferredFontForTextStyle:UIFontTextStyleCaption1] fontWithSize:12];
+                if ([subtitleLabel respondsToSelector:@selector(preferredFontForTextStyle)])
+                    subtitleLabel.font = [[UIFont preferredFontForTextStyle:UIFontTextStyleCaption1] fontWithSize:12];
 				subtitleLabel.shadowColor = nil;
 				subtitleLabel.shadowOffset = CGSizeZero;
 			}
